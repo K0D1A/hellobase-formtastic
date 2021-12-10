@@ -25,13 +25,6 @@ require 'tod'
 require 'rails/all'
 require 'nokogiri'
 
-# for formtastic/util
-module Rails
-  module VERSION
-    STRING = '6.0'
-  end
-end
-
 class FormObject
   include ActiveModel::Attributes
 
