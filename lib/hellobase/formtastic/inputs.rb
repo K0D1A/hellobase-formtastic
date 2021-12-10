@@ -9,7 +9,3 @@ module Hellobase
     end
   end
 end
-
-::Hellobase::Formtastic::Inputs.constants.each do |c|
-  Object.const_set c, ::Hellobase::Formtastic::Inputs.const_get(c)
-end
