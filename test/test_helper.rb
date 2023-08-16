@@ -28,6 +28,7 @@ require 'nokogiri'
 class FormObject
   include ActiveModel::Attributes
 
+  attr_accessor :array # TODO 'string_array' type
   attribute :boolean, :boolean
   attribute :datetime, :datetime
   attribute :time_of_day, :string # TODO 'time_only' type

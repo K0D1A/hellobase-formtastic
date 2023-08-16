@@ -1,3 +1,4 @@
+require 'hellobase/formtastic/inputs/array_text_input'
 require 'hellobase/formtastic/inputs/content_input'
 require 'hellobase/formtastic/inputs/datepicker_with_time_input'
 require 'hellobase/formtastic/inputs/inline_checkbox_input'
