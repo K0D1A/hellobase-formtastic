@@ -13,41 +13,55 @@ module Hellobase
         def self.define_virtual_attributes(klass, base)
           attrs = virtual_attributes(base)
           ivars = attrs.map {|a| :"@#{a}" }
-          method = :"_dpwt_set_#{base}"
+          recalc_method = :"_dpwt_recalc_#{base}"
 
           klass.class_eval do
             define_method attrs[0] do
-              send(base)&.strftime('%Y-%m-%d')
+              if instance_variable_defined? ivars[0]
+                instance_variable_get ivars[0]
+              else
+                instance_variable_set ivars[0], send(base)&.strftime('%Y-%m-%d')
+              end
             end
 
             define_method attrs[1] do
-              send(base)&.strftime('%H')
+              if instance_variable_defined? ivars[1]
+                instance_variable_get ivars[1]
+              else
+                instance_variable_set ivars[1], send(base)&.strftime('%H')
+              end
             end
 
             define_method attrs[2] do
-              send(base)&.strftime('%M')
+              if instance_variable_defined? ivars[2]
+                instance_variable_get ivars[2]
+              else
+                instance_variable_set ivars[2], send(base)&.strftime('%M')
+              end
             end
 
             define_method attrs[3] do
-              send(base)&.strftime('%Z')
+              if instance_variable_defined? ivars[3]
+                instance_variable_get ivars[3]
+              else
+                instance_variable_set ivars[3], send(base)&.zone
+              end
             end
 
             attrs.each_with_index do |a, i|
               define_method :"#{a}=" do |val|
                 instance_variable_set ivars[i], val
-                send(method)
-
-                val
+                send recalc_method
               end
             end
 
-            define_method method do
-              val = if ivars.any? {|v| !instance_variable_defined?(v) || instance_variable_get(v).blank? }
+            define_method recalc_method do
+              val = if attrs.any? {|attr| send(attr).blank? }
                 nil
               else
                 begin
-                  Time.use_zone(instance_variable_get(ivars[3])) do
-                    Time.parse("#{instance_variable_get(ivars[0])} #{instance_variable_get(ivars[1])}:#{instance_variable_get(ivars[2])}")
+                  Time.use_zone(send(attrs[3])) do
+                    Time.zone.parse("#{send(attrs[0])} #{send(attrs[1])}:#{send(attrs[2])}")
                   end
                 rescue ArgumentError
                   nil
@@ -57,7 +71,7 @@ module Hellobase
               send :"#{base}=", val
             end
 
-            private method
+            private recalc_method
           end
         end
 
