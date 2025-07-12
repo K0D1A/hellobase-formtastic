@@ -11,7 +11,7 @@ end
 class DatepickerWithTimeInputVirtualAttributesTest < Minitest::Test
   def test_success
     model = TestModel.new(_dpwt_value_d: '2025-01-01', _dpwt_value_h: '12', _dpwt_value_m: '34', _dpwt_value_z: 'America/Chicago')
-    assert_equal Time.use_zone('America/Chicago') { Time.parse('2025-01-01 12:34') }, model.value
+    assert_equal Time.use_zone('America/Chicago') { Time.zone.parse('2025-01-01 12:34') }, model.value
   end
 
   def test_blank_date
