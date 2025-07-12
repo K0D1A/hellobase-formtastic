@@ -42,17 +42,19 @@ module Hellobase
             end
 
             define_method method do
-              send :"#{base}=",
-                ivars.any? {|v| instance_variable_get(v).blank? } ?
-                  nil :
-                  [
-                    instance_variable_get(ivars[0]),
-                    [
-                      instance_variable_get(ivars[1]),
-                      instance_variable_get(ivars[2])
-                    ].join(':'),
-                    instance_variable_get(ivars[3]),
-                  ].join(' ')
+              val = if ivars.any? {|v| !instance_variable_defined?(v) || instance_variable_get(v).blank? }
+                nil
+              else
+                begin
+                  Time.use_zone(instance_variable_get(ivars[3])) do
+                    Time.parse("#{instance_variable_get(ivars[0])} #{instance_variable_get(ivars[1])}:#{instance_variable_get(ivars[2])}")
+                  end
+                rescue ArgumentError
+                  nil
+                end
+              end
+
+              send :"#{base}=", val
             end
 
             private method
