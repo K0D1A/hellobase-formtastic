@@ -1,10 +1,6 @@
 require "logger" # Fix concurrent-ruby 1.3.5 removing logger dependency which Rails itself does not have
 require 'minitest/autorun'
 
-# suppress warnings from gem dependencies
-require 'warning'
-Gem.path.each {|path| Warning.ignore(//, path) }
-
 require 'hellobase/formtastic'
 
 class Minitest::Test
