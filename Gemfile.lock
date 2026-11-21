@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    hellobase-formtastic (0.7.0)
+    hellobase-formtastic (0.9.0)
       activeadmin (~> 3)
       activesupport (~> 7.2)
-      tod (~> 2)
+      tod (~> 3.1)
 
 GEM
   remote: https://rubygems.org/
@@ -187,7 +187,7 @@ GEM
     securerandom (0.4.1)
     thor (1.5.0)
     timeout (0.6.1)
-    tod (2.2.0)
+    tod (3.1.2)
     tsort (0.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
